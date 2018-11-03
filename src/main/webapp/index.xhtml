@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Guia 09</title>
+    </h:head>
+    <h:body>
+        <h1>Lista de entidad Tipo Usuario</h1>
+        <h:form id="ingresar">
+            <p:growl id="message" showDetail="true" />
+
+            <h:panelGrid columns="2" columnClasses="label, value" id="datos">
+                <h:outputLabel value="Nombre: " for="txtNombre" />
+                <p:inputText required="true" id="txtNombre" value="#{tipoUsuarioManageBean.tipoUsuario.nombre}"/>
+
+                <h:outputLabel value="Observaciones: " for="txtObservaciones"/>
+                <p:inputText  required="true" id="txtObservaciones" value="#{tipoUsuarioManageBean.tipoUsuario.observaciones}"/>
+
+                <h:outputLabel value="AppID: " for="txtAppID"/>
+                <p:inputText id="txtAppID" value="#{tipoUsuarioManageBean.tipoUsuario.appId}"/>
+
+                <h:outputLabel value="Activo" for="activoTipoUsuario"></h:outputLabel>
+                <h:selectBooleanCheckbox  id="activoTipoUsuario" value="#{tipoUsuarioManageBean.tipoUsuario.activo}" required="true" ></h:selectBooleanCheckbox>
+            </h:panelGrid>
+            <p:commandButton value="Crear" update="ingresar" icon="ui-icon-disk" actionListener="#{tipoUsuarioManageBean.btnAgregarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'NUEVO'}" onstart="wdgList.clearSelection();"/>
+            <p:commandButton value="Actualizar" update="ingresar, message" icon="ui-icon-check" actionListener="#{tipoUsuarioManageBean.btnEditarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}" onstart="wdgList.clearSelection();"/>
+            <p:commandButton value="Eliminar" update="ingresar, message" icon = "ui-icon-trash" actionListener="#{tipoUsuarioManageBean.btnEliminarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}" onstart="wdgList.clearSelection();">
+                <p:confirm header="Confirmación:" message="¿Está seguro que desea eliminar el registro?" icon="ui-icon-alert"/>
+            </p:commandButton>  
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>            
+            <p:commandButton value="Cancelar" update="ingresar" icon="ui-icon-close" actionListener="#{tipoUsuarioManageBean.btnCancelarHandler}" onstart="wdgList.clearSelection();"/>
+            
+        </h:form>
+        
+        <h:form id="lazyModel">
+            <p:dataTable var="p" value="#{tipoUsuarioManageBean.lazyModel}" paginator="true" rows="5"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         id="tipoUsuarioTable" lazy="true"  selectionMode="single"  selection="#{tipoUsuarioManageBean.tipoUsuario}" >
+                <p:ajax event="rowSelect" listener="#{tipoUsuarioManageBean.onRowSelect}" update=":ingresar"/>
+                <p:ajax event="rowUnselect" listener="#{tipoUsuarioManageBean.onRowDeselect}" update=":ingresar"/>
+                <p:column headerText="Id">
+                    <h:outputText value="#{p.idTipoUsuario}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{p.nombre}" />
+                </p:column>
+                <p:column headerText="App ID">
+                    <h:outputText value="#{p.appId}" />
+                </p:column>
+                <p:column headerText="Observaciones">
+                    <h:outputText value="#{p.observaciones}" />
+                </p:column>
+                <p:column headerText="Activo">
+                    <h:outputText value="#{p.activo}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

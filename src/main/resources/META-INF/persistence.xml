@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="flota_unit" transaction-type="JTA">
+    <jta-data-source>jdbc/flota_prn335</jta-data-source>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.EstadoReserva</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.EstadoVehiculo</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Marca</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Modelo</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.ModeloParte</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Parte</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Recorrido</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Reserva</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.SubTipoParte</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.TipoEstadoReserva</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.TipoEstadoVehiculo</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.TipoParte</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.TipoUsuario</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.TipoVehiculo</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Vehiculo</class>
+    <class>sv.edu.uesocc.ingenieria.prn335_2018.flota.datos.definicion.Viaje</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/flota"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="cristian"/>
+    </properties>
+  </persistence-unit>
+</persistence>
