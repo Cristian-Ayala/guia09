@@ -24,19 +24,18 @@
                 <h:outputLabel value="Activo" for="activoTipoUsuario"></h:outputLabel>
                 <h:selectBooleanCheckbox  id="activoTipoUsuario" value="#{tipoUsuarioManageBean.tipoUsuario.activo}" required="true" ></h:selectBooleanCheckbox>
             </h:panelGrid>
-            <p:commandButton value="Crear" update="ingresar" icon="ui-icon-disk" actionListener="#{tipoUsuarioManageBean.btnAgregarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'NUEVO'}" onstart="wdgList.clearSelection();"/>
+            <p:commandButton value="Crear" update="datos" icon="ui-icon-disk" actionListener="#{tipoUsuarioManageBean.btnAgregarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'NUEVO'}" onstart="wdgList.clearSelection();"/>
             <p:commandButton value="Actualizar" update="ingresar, message" icon="ui-icon-check" actionListener="#{tipoUsuarioManageBean.btnEditarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}" onstart="wdgList.clearSelection();"/>
-            <p:commandButton value="Eliminar" update="ingresar, message" icon = "ui-icon-trash" actionListener="#{tipoUsuarioManageBean.btnEliminarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}" onstart="wdgList.clearSelection();">
-                <p:confirm header="Confirmación:" message="¿Está seguro que desea eliminar el registro?" icon="ui-icon-alert"/>
-            </p:commandButton>  
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>            
+            <p:commandButton value="Eliminar" onclick="PF('delete').show();" icon = "ui-icon-trash" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}"/>
+            <p:dialog id="deleteButtons" widgetVar="delete" header="Confirmación" modal="true" hideEffect="fade" resizable="false" showEffect="fade" draggable="false">
+                ¿Está seguro que quiere eliminar el registro?<br/>
+                <p:commandButton value="Si" actionListener="#{tipoUsuarioManageBean.btnEliminarHandler}" onclick="PF('delete').hide()" icon="ui-icon-check" update="ingresar, message" onstart="wdgList.clearSelection();"/>
+                <p:commandButton value="No" icon="ui-icon-close" onclick="delete.hide();"/>
+            </p:dialog>
             <p:commandButton value="Cancelar" update="ingresar" icon="ui-icon-close" actionListener="#{tipoUsuarioManageBean.btnCancelarHandler}" onstart="wdgList.clearSelection();"/>
-            
+
         </h:form>
-        
+
         <h:form id="lazyModel">
             <p:dataTable var="p" value="#{tipoUsuarioManageBean.lazyModel}" paginator="true" rows="5"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sv.edu.uesocc.ingenieria.prn335_2018.web.controladores;
 
 import java.io.Serializable;
@@ -18,7 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.LazyDataModel;
@@ -38,49 +33,34 @@ public class TipoUsuarioManageBean implements Serializable {
     TipoUsuarioFacadeLocal tipoUsrbd;
 
     private LazyDataModel<TipoUsuario> lazyModelo;
-    private TipoUsuario tipoUsuario = new TipoUsuario();
+    private TipoUsuario tipoUsuario;
     private List<TipoUsuario> tipoUsuarioList;
     private EstadoCRUD estado;
 
-    public EstadoCRUD getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoCRUD estado) {
-        this.estado = estado;
-    }
-
-    public TipoUsuarioManageBean() {
-
-    }
-
-    public LazyDataModel<TipoUsuario> getLazyModel() {
-        return lazyModelo;
-    }
-
-    public void setModel(LazyDataModel<TipoUsuario> lazyModel) {
-        this.lazyModelo = lazyModel;
-    }
-
     public void btnCancelarHandler(ActionEvent ae) {
-//        post();
-//        org.primefaces.event.UnselectEvent hola;
-//        hola = new UnselectEvent(lazyModelo, UnselectEvent, ae);
         this.estado = EstadoCRUD.NUEVO;
-        this.tipoUsuario = new TipoUsuario();
+                    if (this.tipoUsuario != null && this.tipoUsrbd != null) {
+                                this.tipoUsuario = new TipoUsuario();
+                    }
     }
 
-    //Si había una fila seleccionada se deselecciona, y cuando se seleccionan los botones hace que se actualice despues de presionarlos
-    public static void clearSelection() {
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("wdgList.clearSelection()");
+    public void btnAgregarHandler(ActionEvent ae) {
+        try {
+            if (this.tipoUsuario != null && this.tipoUsrbd != null) {
+                tipoUsrbd.create(tipoUsuario);
+                post();
+                addMessage("EXITO", "Se agrego un registro con éxito");
+            }
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+
     }
 
     public void btnEditarHandler(ActionEvent ae) {
         try {
             if (this.tipoUsuario != null && this.tipoUsrbd != null) {
                 this.tipoUsrbd.edit(tipoUsuario);
-                this.tipoUsuario = new TipoUsuario();
                 post();
                 addMessage("Modificado:", "El registro ha sido actualizado exitosamente");
             }
@@ -100,6 +80,11 @@ public class TipoUsuarioManageBean implements Serializable {
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
+    }
+
+    //Si había una fila seleccionada se deselecciona, y cuando se seleccionan los botones hace que se actualice despues de presionarlos
+    public static void clearSelection() {
+        PrimeFaces.current().executeScript("wdgList.clearSelection()");
     }
 
     public void addMessage(String summary, String detail) {
@@ -137,7 +122,7 @@ public class TipoUsuarioManageBean implements Serializable {
                                     return tu;
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (NumberFormatException e) {
                             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
                         }
                     }
@@ -160,7 +145,7 @@ public class TipoUsuarioManageBean implements Serializable {
 
                 @Override
                 public int getRowIndex() {
-                    return super.getRowIndex(); //To change body of generated methods, choose Tools | Templates.
+                    return super.getRowIndex();
                 }
 
             };
@@ -170,6 +155,7 @@ public class TipoUsuarioManageBean implements Serializable {
         }
 
     }
+//    styleClass="ui-confirmdialog-yes"
 
     public void onRowSelect(SelectEvent event) {
         tipoUsuario = (TipoUsuario) event.getObject();
@@ -183,13 +169,23 @@ public class TipoUsuarioManageBean implements Serializable {
 
     }
 
-    public TipoUsuario obtenerTipoUsuario() {
-        return tipoUsrbd.find(tipoUsuario);
+    public EstadoCRUD getEstado() {
+        return estado;
     }
 
-    public void crearTipoUsuario() {
-        tipoUsrbd.create(tipoUsuario);
-        post();
+    public void setEstado(EstadoCRUD estado) {
+        this.estado = estado;
+    }
+
+    public TipoUsuarioManageBean() {
+    }
+
+    public LazyDataModel<TipoUsuario> getLazyModel() {
+        return lazyModelo;
+    }
+
+    public void setModel(LazyDataModel<TipoUsuario> lazyModel) {
+        this.lazyModelo = lazyModel;
     }
 
     public List<TipoUsuario> getTipoUsuarioList() {
@@ -197,6 +193,9 @@ public class TipoUsuarioManageBean implements Serializable {
     }
 
     public TipoUsuario getTipoUsuario() {
+        if (tipoUsuario ==null) {
+            tipoUsuario= new TipoUsuario();
+        }
         return tipoUsuario;
     }
 
@@ -208,14 +207,4 @@ public class TipoUsuarioManageBean implements Serializable {
         this.tipoUsuario = new TipoUsuario();
     }
 
-    public void btnAgregarHandler(ActionEvent ae) {
-        tipoUsrbd.create(tipoUsuario);
-        this.iniciarTipoUsuario();
-        LDM();
-        FacesMessage mensaje = new FacesMessage();
-        mensaje.setSeverity(FacesMessage.SEVERITY_INFO);
-        mensaje.setSummary("EXITO");
-        mensaje.setDetail("Se agrego un registro con éxito");
-        FacesContext.getCurrentInstance().addMessage(null, mensaje);
-    }
 }

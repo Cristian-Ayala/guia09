@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+           <p:commandButton value="Crear" update="datos" icon="ui-icon-disk" actionListener="#{tipoUsuarioManageBean.btnAgregarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'NUEVO'}" onstart="wdgList.clearSelection();"/>
+            <p:commandButton value="Actualizar" update="ingresar, message" icon="ui-icon-check" actionListener="#{tipoUsuarioManageBean.btnEditarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}" onstart="wdgList.clearSelection();"/>
+            <p:commandButton value="Eliminar" update="ingresar, message" icon = "ui-icon-trash" actionListener="#{tipoUsuarioManageBean.btnEliminarHandler}" rendered="#{tipoUsuarioManageBean.estado == 'EDITAR'}" onstart="wdgList.clearSelection();">
+                <p:confirm header="Confirmación:" message="¿Está seguro que desea eliminar el registro?" icon="ui-icon-alert" />
+            </p:commandButton>  
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>            
+            <p:commandButton value="Cancelar" update="ingresar" icon="ui-icon-close" actionListener="#{tipoUsuarioManageBean.btnCancelarHandler}" onstart="wdgList.clearSelection();"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+    </cc:implementation>
+</html>
